@@ -1342,43 +1342,6 @@ body {
     </div>
   </div>
 
-  <!-- STORES 決済申込カード -->
-  <div class="card" style="margin-top:14px;overflow:hidden;">
-    <div style="background:linear-gradient(135deg,#1a1f3a 0%,#2d3561 100%);padding:14px 16px;display:flex;align-items:center;gap:10px;">
-      <div style="background:white;border-radius:8px;padding:5px 10px;display:flex;align-items:center;">
-        <!-- STORES ロゴ（SVG インライン） -->
-        <svg width="72" height="20" viewBox="0 0 120 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <text x="0" y="26" font-family="Arial Black,sans-serif" font-weight="900" font-size="28" fill="#1a1a2e" letter-spacing="-1">STORES</text>
-        </svg>
-      </div>
-      <div>
-        <div style="color:white;font-size:13px;font-weight:700;letter-spacing:1px;">決済サービス申込</div>
-        <div style="color:rgba(255,255,255,0.6);font-size:10px;margin-top:1px;">オプション</div>
-      </div>
-    </div>
-    <div style="padding:16px;">
-      <div style="display:flex;gap:10px;margin-bottom:14px;">
-        <div style="flex:1;background:#f0f7ff;border-radius:10px;padding:12px;text-align:center;">
-          <div style="font-size:18px;font-weight:900;color:#1a1f3a;line-height:1;">1.98%<span style="font-size:11px;font-weight:400;color:#666;">〜</span></div>
-          <div style="font-size:10px;color:#888;margin-top:4px;">決済手数料</div>
-        </div>
-        <div style="flex:1;background:#f0fff4;border-radius:10px;padding:12px;text-align:center;">
-          <div style="font-size:18px;font-weight:900;color:#1a1f3a;line-height:1;">最短<span style="font-size:13px;">3</span>営業日</div>
-          <div style="font-size:10px;color:#888;margin-top:4px;">導入まで</div>
-        </div>
-      </div>
-      <div style="background:#fafafa;border-radius:8px;padding:10px 12px;margin-bottom:14px;font-size:11px;color:#666;line-height:1.7;">
-        <span style="color:#1a1f3a;font-weight:700;">対応決済：</span>クレジットカード・交通系IC・QRコード決済など<br>
-        <span style="color:#1a1f3a;font-weight:700;">初期費用：</span>無料　<span style="color:#1a1f3a;font-weight:700;">月額費用：</span>無料
-      </div>
-      <a href="https://dashboard.stores.app/referral?ac=njf_st" target="_blank"
-        style="display:block;background:linear-gradient(135deg,#1a1f3a,#2d3561);color:white;text-align:center;padding:14px;border-radius:10px;font-size:14px;font-weight:700;letter-spacing:1px;text-decoration:none;box-shadow:0 4px 12px rgba(26,31,58,0.3);">
-        STORES 決済を申し込む　→
-      </a>
-      <div style="text-align:center;font-size:10px;color:#aaa;margin-top:8px;">※ NJFREGIとは別サービスです。STORESのサイトへ移動します。</div>
-    </div>
-  </div>
-
   <div class="nav-btns">
     <button class="btn-back" onclick="goPage(4)">← 戻る</button>
     <button class="btn-submit" onclick="submitForm()">申込を送信する</button>
@@ -1937,6 +1900,10 @@ function showSuccess(data) {
     <div class="row"><span>申込日</span><span>${data.dateStr}</span></div>
   `;
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  // 1.5秒後にSTORESモーダルを表示
+  setTimeout(function() {
+    openStoresModal();
+  }, 1500);
 }
 
 // ═══════════════════════════════════════════
@@ -2005,6 +1972,22 @@ function saveAdmin() {
   alert('設定を保存しました。');
 }
 
+// ─── STORES モーダル ───
+function openStoresModal() {
+  var m = document.getElementById('storesModal');
+  m.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeStoresModal() {
+  var m = document.getElementById('storesModal');
+  m.style.display = 'none';
+  document.body.style.overflow = '';
+}
+// モーダル背景クリックで閉じる
+document.getElementById('storesModal').addEventListener('click', function(e) {
+  if (e.target === this) closeStoresModal();
+});
+
 // ─── Admin long-press（3秒長押しで管理パネル表示）───
 (function() {
   var fab = document.getElementById('adminFab');
@@ -2047,5 +2030,61 @@ function saveAdmin() {
 // ─── Boot ───
 init();
 </script>
+
+<!-- ════ STORES 決済申込モーダル ════ -->
+<div id="storesModal" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);align-items:flex-end;justify-content:center;">
+  <div style="background:white;border-radius:20px 20px 0 0;padding:0;width:100%;max-width:480px;animation:slideUp 0.35s cubic-bezier(0.34,1.1,0.64,1);">
+    <!-- ハンドル -->
+    <div style="width:40px;height:4px;background:#ddd;border-radius:2px;margin:12px auto 0;"></div>
+    <!-- ヘッダー -->
+    <div style="background:linear-gradient(135deg,#1a1f3a,#2d3561);margin:10px 16px 0;border-radius:14px;padding:18px 20px;display:flex;align-items:center;gap:14px;">
+      <div style="background:white;border-radius:10px;padding:7px 12px;font-family:'Arial Black',sans-serif;font-size:18px;font-weight:900;color:#1a1f3a;letter-spacing:-0.5px;flex-shrink:0;">STORES</div>
+      <div>
+        <div style="color:white;font-size:14px;font-weight:700;letter-spacing:0.5px;">キャッシュレス決済を導入しませんか？</div>
+        <div style="color:rgba(255,255,255,0.6);font-size:10px;margin-top:2px;">申込完了のついでにまとめて手続き</div>
+      </div>
+    </div>
+    <!-- コンテンツ -->
+    <div style="padding:18px 16px;">
+      <!-- 2カラム stats -->
+      <div style="display:flex;gap:10px;margin-bottom:14px;">
+        <div style="flex:1;background:#f0f4ff;border-radius:12px;padding:14px;text-align:center;">
+          <div style="font-size:22px;font-weight:900;color:#1a1f3a;line-height:1;">1.98%<span style="font-size:12px;font-weight:400;color:#888;">〜</span></div>
+          <div style="font-size:10px;color:#888;margin-top:4px;font-weight:500;">決済手数料</div>
+        </div>
+        <div style="flex:1;background:#f0fff6;border-radius:12px;padding:14px;text-align:center;">
+          <div style="font-size:22px;font-weight:900;color:#1a1f3a;line-height:1;">最短<span style="font-size:16px;">3</span>日</div>
+          <div style="font-size:10px;color:#888;margin-top:4px;font-weight:500;">導入まで</div>
+        </div>
+      </div>
+      <!-- 特徴 -->
+      <div style="background:#fafafa;border-radius:10px;padding:12px 14px;margin-bottom:16px;">
+        <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:#444;line-height:1.5;">
+          <div>✅　<b>初期費用・月額費用　無料</b></div>
+          <div>✅　クレジットカード・交通系IC・QRコード対応</div>
+          <div>✅　最短3営業日で導入完了</div>
+          <div>✅　売上は最短翌営業日に振込</div>
+        </div>
+      </div>
+      <!-- ボタン -->
+      <a href="https://dashboard.stores.app/referral?ac=njf_st" target="_blank"
+        onclick="closeStoresModal()"
+        style="display:block;background:linear-gradient(135deg,#1a1f3a,#2d3561);color:white;text-align:center;padding:16px;border-radius:12px;font-size:15px;font-weight:700;letter-spacing:1px;text-decoration:none;box-shadow:0 4px 16px rgba(26,31,58,0.3);margin-bottom:10px;">
+        STORES 決済を申し込む　→
+      </a>
+      <button onclick="closeStoresModal()"
+        style="width:100%;padding:13px;background:none;border:1.5px solid #ddd;border-radius:12px;font-size:14px;color:#888;font-weight:500;cursor:pointer;font-family:'Noto Sans JP',sans-serif;">
+        今は申し込まない
+      </button>
+      <div style="text-align:center;font-size:10px;color:#bbb;margin-top:10px;padding-bottom:env(safe-area-inset-bottom);">
+        ※ NJFREGIとは別サービスです。STORESのサイトへ移動します。
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+@keyframes slideUp { from { transform: translateY(100%); opacity:0; } to { transform: translateY(0); opacity:1; } }
+</style>
+
 </body>
 </html>
